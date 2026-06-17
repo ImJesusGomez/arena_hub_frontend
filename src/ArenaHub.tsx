@@ -1,3 +1,10 @@
+import { RouterProvider } from "react-router";
+import { router } from "./router/app.router";
+
 export const ArenaHub = () => {
-  return <div>ArenaHub</div>;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };
