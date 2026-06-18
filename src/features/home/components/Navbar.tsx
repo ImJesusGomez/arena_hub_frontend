@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
 const navItems = [
   { label: "Inicio", href: "#home" },
@@ -41,11 +42,13 @@ export default function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-2  ">
-          <Button variant="ghost" className="hover:text-primary text-white">
-            Iniciar sesión
+          <Button variant="ghost" className="hover:text-primary text-white" asChild>
+            <Link to="/login">Iniciar sesión</Link>
           </Button>
 
-          <Button className="text-black">Crear Cuenta</Button>
+          <Button className="text-black" asChild>
+            <Link to="/register">Reservar ahora</Link>
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -74,11 +77,13 @@ export default function Navbar() {
             ))}
 
             <div className="flex flex-col gap-2 pt-2">
-              <Button variant="outline" className="hover:text-white">
-                Iniciar sesión
+              <Button variant="outline" className="hover:text-white" asChild>
+                <Link to="/login">Iniciar sesión</Link>
               </Button>
 
-              <Button>Reservar ahora</Button>
+              <Button asChild>
+                <Link to="/register">Reservar ahora</Link>
+              </Button>
             </div>
           </nav>
         </div>
