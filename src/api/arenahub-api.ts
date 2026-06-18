@@ -8,12 +8,14 @@ const arenaApi = axios.create({
   },
 });
 
+// 1. Interceptor de Petición (Request)
 arenaApi.interceptors.request.use(
   (config) => {
     const { accessToken, tokenType } = useAuthStore.getState();
 
     if (accessToken) {
-      config.headers.Authorization = `${tokenType} ${accessToken}`;
+      const type = tokenType ? tokenType.trim() : "Bearer";
+      config.headers.Authorization = `${type} ${accessToken.trim()}`;
     }
 
     return config;
@@ -21,17 +23,14 @@ arenaApi.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+// 2. Interceptor de Respuesta (Response) - CORREGIDO
 arenaApi.interceptors.response.use(
-  (config) => {
-    const { accessToken, tokenType } = useAuthStore.getState();
-
-    if (accessToken) {
-      config.headers.Authorization = `${tokenType} ${accessToken}`;
-    }
-
-    return config;
+  (response) => {
+    return response;
   },
-  (error) => Promise.reject(error),
+  (error) => {
+    return Promise.reject(error);
+  },
 );
 
 export default arenaApi;
