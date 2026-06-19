@@ -1,4 +1,6 @@
 import { AuthLayout } from "@/features/auth/layout/AuthLayout";
+import { DashboardLayout } from "@/features/dashboard/layout/DashboardLayout";
+import { DashboardInstalaciones } from "@/pages/DashboardInstalaciones";
 import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/LoginPage";
 import { RegisterPage } from "@/pages/RegisterPage";
@@ -29,6 +31,16 @@ export const router = createBrowserRouter([
           title: "Crear Cuenta",
           subtitle: "Comienza a gestionar tus espacios y reservas.",
         },
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "dashboard/instalaciones",
+        element: <DashboardInstalaciones />,
       },
     ],
   },
