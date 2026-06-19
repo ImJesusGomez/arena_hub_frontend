@@ -1,6 +1,6 @@
 import { AuthLayout } from "@/features/auth/layout/AuthLayout";
 import { DashboardLayout } from "@/features/dashboard/layout/DashboardLayout";
-import { DashboardInstalaciones } from "@/pages/DashboardInstalaciones";
+import { DashboardFacility } from "@/pages/DashboardFacility";
 import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/LoginPage";
 import { RegisterPage } from "@/pages/RegisterPage";
@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "dashboard/instalaciones",
-        element: <DashboardInstalaciones />,
+        element: <DashboardFacility />,
       },
     ],
   },
