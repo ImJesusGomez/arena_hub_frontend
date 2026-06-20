@@ -7,6 +7,8 @@ import { useAuthStore } from "@/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { FacilityCreate } from "./FacilityCreate";
 import { Plus } from "lucide-react";
+import type { Facility } from "@/interfaces/entities/facility.entity";
+import { FacilityInfo } from "./FacilityInfo";
 
 export const FacilitiesPage = () => {
   const user = useAuthStore((state) => state.user);
@@ -19,6 +21,14 @@ export const FacilitiesPage = () => {
   });
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
+
+  const handleOpenFacility = (facility: Facility) => {
+    setSelectedFacility(facility);
+    setIsInfoOpen(true);
+  };
 
   const handleClear = () => {
     setFilters({
@@ -39,11 +49,12 @@ export const FacilitiesPage = () => {
           Nuevo Espacio
         </Button>
       )}
-
       <FacilitySearch filters={filters} onFiltersChange={setFilters} onClear={handleClear} />
-      <FacilityContainer filters={filters} />
-
+      <FacilityContainer filters={filters} onFacilitySelect={handleOpenFacility} />
       <FacilityCreate open={isCreateOpen} onOpenChange={setIsCreateOpen} />
+      {selectedFacility && (
+        <FacilityInfo open={isInfoOpen} onOpenChange={setIsInfoOpen} facility={selectedFacility} />
+      )}{" "}
     </div>
   );
 };
