@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import type { FacilityFilters } from "../actions/get-facilities.action";
 
@@ -29,16 +29,23 @@ interface Props {
 
 export const FacilitySearch = ({ filters, onFiltersChange, onClear }: Props) => {
   const [name, setName] = useState(filters.name ?? "");
-
   const [debouncedName] = useDebounce(name, 500);
+
+  // Usamos una referencia para tener los filtros actualizados sin disparar el efecto
+  const filtersRef = useRef(filters);
+
+  // Mantener la referencia al día en cada render
+  useEffect(() => {
+    filtersRef.current = filters;
+  });
 
   useEffect(() => {
     onFiltersChange({
-      ...filters,
+      ...filtersRef.current,
       name: debouncedName,
       page: 0,
     });
-  }, [debouncedName, filters, onFiltersChange]);
+  }, [debouncedName, onFiltersChange]);
 
   return (
     <div className="space-y-4">

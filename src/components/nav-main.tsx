@@ -5,7 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export function NavMain({
   items,
@@ -16,6 +16,8 @@ export function NavMain({
     icon?: React.ReactNode;
   }[];
 }) {
+  const location = useLocation();
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -25,7 +27,7 @@ export function NavMain({
               <SidebarMenuButton
                 asChild
                 tooltip={item.title}
-                className="hover:bg-gray-100/50 active:bg-gray-100/50"
+                className={`hover:bg-gray-100/50 active:bg-gray-100/50 ${location.pathname.toLocaleLowerCase().includes(item.url.toLocaleLowerCase()) ? "bg-gray-200/50 text-primary" : ""}`}
               >
                 <Link to={item.url}>
                   {item.icon}

@@ -2,12 +2,13 @@ import { MapPin, Users, Wallet } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import type { FacilityImage } from "@/interfaces/entities/facility-image.entity";
 
 interface FacilityCardProps {
   name: string;
   locationDetails: string;
   spaceType: string;
-  images: string[];
+  images: FacilityImage[];
   maxCapacity: number;
   hourlyRate: number;
   favorite?: boolean;
@@ -29,7 +30,7 @@ export const FacilityCard = ({
           src={
             images.length === 0
               ? "https://media.istockphoto.com/id/1980276924/es/vector/sin-elemento-gr%C3%A1fico-en-miniatura-de-la-foto-no-se-ha-encontrado-ninguna-imagen-o-est%C3%A1.jpg?s=612x612&w=0&k=20&c=artWlQoi5R1edWQBv9LfzeLXupOcH_alZnMgvXdYkF4="
-              : images[0]
+              : images[0].url
           }
           alt={name}
           className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"

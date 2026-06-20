@@ -1,3 +1,6 @@
+import type { FacilityImage } from "./facility-image.entity";
+import type { FacilitySchedule } from "./facility-schedule.entity";
+
 export interface Facility {
   id: string;
   name: string;
@@ -9,13 +12,5 @@ export interface Facility {
   hourlyRate: number;
   available: boolean;
   facilitySchedules: FacilitySchedule[];
-  images: string[];
-}
-
-export interface FacilitySchedule {
-  id: string;
-  day: string;
-  startTime: string;
-  endTime: string;
-  available: boolean;
+  images: FacilityImage[];
 }
