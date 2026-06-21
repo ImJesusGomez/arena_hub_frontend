@@ -1,13 +1,7 @@
 import type { Facility } from "../entities/facility.entity";
+import type { Page } from "./page.response";
 
 export interface Facilities {
   content: Facility[];
   page: Page;
-}
-
-export interface Page {
-  size: number;
-  number: number;
-  totalElements: number;
-  totalPages: number;
 }

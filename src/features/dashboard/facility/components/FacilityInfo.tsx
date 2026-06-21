@@ -12,11 +12,20 @@ import {
 } from "@/components/ui/drawer";
 
 import type { Facility } from "@/interfaces/entities/facility.entity";
+import { useForm } from "react-hook-form";
+import { useCreateReservation } from "../../reservation/hooks/useCreateReservation";
+import { useState } from "react";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   facility: Facility;
+}
+
+interface ReservationForm {
+  date: string;
+  startTime: string;
+  endTime: string;
 }
 
 export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
@@ -36,6 +45,33 @@ export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
   };
 
   const formatDay = (day: string) => DAYS_ES[day] ?? day;
+
+  // Crear la reservación
+  const [showReservationForm, setShowReservationForm] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ReservationForm>();
+
+  const { mutateAsync } = useCreateReservation();
+
+  const onSubmit = async (data: ReservationForm) => {
+    try {
+      await mutateAsync({
+        date: new Date(data.date),
+        startTime: data.startTime,
+        endTime: data.endTime,
+        facilityId: facility.id,
+      });
+
+      setShowReservationForm(false);
+      onOpenChange(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Drawer direction="right" open={open} onOpenChange={onOpenChange}>
@@ -141,11 +177,72 @@ export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
                 )}
               </div>
             </div>
+
+            {/* Formulario de Reservación */}
+            <div>
+              {showReservationForm && (
+                <div className="rounded-xl border p-4 space-y-4">
+                  <h3 className="text-lg font-semibold">Crear reservación</h3>
+
+                  <div>
+                    <label className="text-sm font-medium">Fecha</label>
+
+                    <input
+                      type="date"
+                      className="w-full rounded-md border p-2 mt-1"
+                      {...register("date", {
+                        required: "La fecha es requerida",
+                      })}
+                    />
+
+                    {errors.date && <p className="text-sm text-red-500">{errors.date.message}</p>}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">Hora de inicio</label>
+
+                    <input
+                      type="time"
+                      className="w-full rounded-md border p-2 mt-1"
+                      {...register("startTime", {
+                        required: "La hora inicial es requerida",
+                      })}
+                    />
+
+                    {errors.startTime && (
+                      <p className="text-sm text-red-500">{errors.startTime.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">Hora de finalización</label>
+
+                    <input
+                      type="time"
+                      className="w-full rounded-md border p-2 mt-1"
+                      {...register("endTime", {
+                        required: "La hora final es requerida",
+                      })}
+                    />
+
+                    {errors.endTime && (
+                      <p className="text-sm text-red-500">{errors.endTime.message}</p>
+                    )}
+                  </div>
+
+                  <Button className="w-full" onClick={handleSubmit(onSubmit)}>
+                    Confirmar reservación
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         <DrawerFooter>
-          <Button size="lg">Ver disponibilidad</Button>
+          <Button size="lg" onClick={() => setShowReservationForm(true)}>
+            Reservar
+          </Button>
 
           <DrawerClose asChild>
             <Button variant="outline">Cerrar</Button>
