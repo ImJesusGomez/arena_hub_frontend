@@ -10,7 +10,7 @@ export const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginRequest>();
 
   const { mutateAsync } = useLogin();
@@ -61,7 +61,7 @@ export const LoginPage = () => {
         {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
       </div>
 
-      <Button type="submit" className="w-full" size="lg">
+      <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
         Ingresar
       </Button>
 

@@ -179,7 +179,7 @@ export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
             </div>
 
             {/* Formulario de Reservación */}
-            <div>
+            <div className="bg-gray-200/50 rounded-sm">
               {showReservationForm && (
                 <div className="rounded-xl border p-4 space-y-4">
                   <h3 className="text-lg font-semibold">Crear reservación</h3>
@@ -240,12 +240,18 @@ export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
         </div>
 
         <DrawerFooter>
-          <Button size="lg" onClick={() => setShowReservationForm(true)}>
+          <Button
+            size="lg"
+            onClick={() => setShowReservationForm(true)}
+            disabled={showReservationForm}
+          >
             Reservar
           </Button>
 
           <DrawerClose asChild>
-            <Button variant="outline">Cerrar</Button>
+            <Button variant="outline" className="hover:bg-gray-200/50 hover:text-primary">
+              Cerrar
+            </Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

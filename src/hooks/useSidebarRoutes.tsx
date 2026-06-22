@@ -1,6 +1,6 @@
 import type { User } from "@/interfaces/entities/user.entity";
 import { useAuthStore } from "@/store/auth.store";
-import { UsersIcon, Building2, Calendar, CalendarRange, Hourglass } from "lucide-react";
+import { Building2, Calendar, CalendarRange, Hourglass } from "lucide-react";
 
 export const useSidebarRoutes = () => {
   const user: User | null = useAuthStore((state) => state.user);
@@ -33,11 +33,6 @@ export const useSidebarRoutes = () => {
         title: "Lista de Espera",
         url: "/dashboard/lista-de-espera",
         icon: <Hourglass />,
-      },
-      {
-        title: "Usuarios",
-        url: "/dashboard/usuarios",
-        icon: <UsersIcon />,
       },
     ],
   };

@@ -13,12 +13,12 @@ export const useUpdateReservation = () => {
       toast.success("Se actualizó correctamente");
 
       queryClient.invalidateQueries({
-        queryKey: ["reservations"],
+        queryKey: ["my-reservations"],
         exact: false,
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["my-reservations"],
+        queryKey: ["reservations"],
         exact: false,
       });
 

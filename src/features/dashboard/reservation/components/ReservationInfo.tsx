@@ -118,7 +118,7 @@ export const ReservationInfo = ({ reservation, open, onOpenChange }: Props) => {
           )}
 
           <DrawerClose asChild>
-            <Button variant="outline" className="hover:bg-gray-200/50 hover:text-red-500">
+            <Button variant="outline" className="hover:bg-gray-200/50 hover:text-primary">
               Cerrar
             </Button>
           </DrawerClose>
