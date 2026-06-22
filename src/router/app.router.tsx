@@ -6,6 +6,7 @@ import { LoginPage } from "@/pages/LoginPage";
 import { MyReservationsPage } from "@/pages/MyReservationsPage";
 import { RegisterPage } from "@/pages/RegisterPage";
 import { ReservationsPage } from "@/pages/ReservationsPage";
+import { WaitlistPage } from "@/pages/WaitlistPage";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -49,8 +50,12 @@ export const router = createBrowserRouter([
         element: <ReservationsPage />,
       },
       {
-        path: "/dashboard/mis-reservaciones",
+        path: "dashboard/mis-reservaciones",
         element: <MyReservationsPage />,
+      },
+      {
+        path: "dashboard/lista-de-espera",
+        element: <WaitlistPage />,
       },
     ],
   },

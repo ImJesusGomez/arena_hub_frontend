@@ -15,6 +15,7 @@ import type { Facility } from "@/interfaces/entities/facility.entity";
 import { useForm } from "react-hook-form";
 import { useCreateReservation } from "../../reservation/hooks/useCreateReservation";
 import { useState } from "react";
+import { useCreateWaitlist } from "../../waitlist/hooks/useCreateWaitlist";
 
 interface Props {
   open: boolean;
@@ -55,18 +56,49 @@ export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
     formState: { errors },
   } = useForm<ReservationForm>();
 
-  const { mutateAsync } = useCreateReservation();
+  const { mutateAsync: createReservation } = useCreateReservation();
 
   const onSubmit = async (data: ReservationForm) => {
     try {
-      await mutateAsync({
+      await createReservation({
+        facilityId: facility.id,
         date: new Date(data.date),
         startTime: data.startTime,
         endTime: data.endTime,
-        facilityId: facility.id,
       });
 
-      setShowReservationForm(false);
+      onOpenChange(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error?.response?.status === 409) {
+        setWaitlistData(data);
+        setShowWaitlistOption(true);
+        return;
+      }
+
+      console.error(error);
+    }
+  };
+
+  // Waitlist
+  const [showWaitlistOption, setShowWaitlistOption] = useState(false);
+  const [waitlistData, setWaitlistData] = useState<ReservationForm | null>(null);
+
+  const { mutateAsync: joinWaitlist } = useCreateWaitlist();
+
+  const handleJoinWaitlist = async () => {
+    if (!waitlistData) return;
+
+    try {
+      await joinWaitlist({
+        facilityId: facility.id,
+        date: new Date(waitlistData.date),
+        startTime: waitlistData.startTime,
+        endTime: waitlistData.endTime,
+      });
+
+      setShowWaitlistOption(false);
+
       onOpenChange(false);
     } catch (error) {
       console.error(error);
@@ -232,6 +264,19 @@ export const FacilityInfo = ({ open, onOpenChange, facility }: Props) => {
 
                   <Button className="w-full" onClick={handleSubmit(onSubmit)}>
                     Confirmar reservación
+                  </Button>
+                </div>
+              )}
+              {showWaitlistOption && (
+                <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
+                  <h4 className="font-semibold">Horario ocupado</h4>
+
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Este horario ya fue reservado. Puedes unirte a la lista de espera.
+                  </p>
+
+                  <Button className="mt-4 w-full" variant="secondary" onClick={handleJoinWaitlist}>
+                    Entrar a lista de espera
                   </Button>
                 </div>
               )}
